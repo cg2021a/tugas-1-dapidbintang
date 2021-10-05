@@ -1,51 +1,26 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Membuat Silinder</title>
-		<style>
-			body { 
-                margin: 0;
-                overflow: hidden;
-             }
+<html lang="en">
 
-             canvas {
-                 background: red;
-             }
-		</style>
-	</head>
-	<body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 1 David Bintang</title>
+    <script src="main.js"></script>
+</head>
 
-        <canvas id="myCanvas"></canvas>
+<body onload="main()">
+     <!-- Kaleng Coca Cola -->
+     <section>
+        <h1>Kaleng Minuman</h1>
+        <p>
+          <a>David Bintang</a
+          >
+          05111840000090
+        </p>
+    <canvas id="myCanvas" width="700" height="500">
 
-		<script src="three.js"></script>
-		<script>
-			// Our Javascript will go here.
-            var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias: true});
-            
-            //definisi background, rasio, ukuran
-            renderer.setClearColor(0x00ff00);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.setSize(window.innerWidth, window.innerHeight);
+    </canvas>
+</body>
 
-            //definisikan kamera
-            var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
-            // camera.position.set(0, 0, 0);
-
-            //definisikan scene
-            var scene = new THREE.Scene();
-            
-            //definisikan bentuk/geometri (x,y,z)
-            var geometry = new THREE.CylinderGeometry(100, 100, 100);
-            //definisikan material
-            var material = new THREE.MeshBasicMaterial();
-            var mesh = new THREE.Mesh(geometry, material);
-            mesh.position.set(0, 0, -1000);
-
-            scene.add(mesh);
-
-            renderer.render(scene, camera);
-            //document.body.appendChild(renderer.domElement);
-		</script>
-	</body>
 </html>
