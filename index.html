@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Membuat Silinder</title>
+		<style>
+			body { 
+                margin: 0;
+                overflow: hidden;
+             }
+
+             canvas {
+                 background: red;
+             }
+		</style>
+	</head>
+	<body>
+
+        <canvas id="myCanvas"></canvas>
+
+		<script src="three.js"></script>
+		<script>
+			// Our Javascript will go here.
+            var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias: true});
+            
+            //definisi background, rasio, ukuran
+            renderer.setClearColor(0x00ff00);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            //definisikan kamera
+            var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
+            // camera.position.set(0, 0, 0);
+
+            //definisikan scene
+            var scene = new THREE.Scene();
+            
+            //definisikan bentuk/geometri (x,y,z)
+            var geometry = new THREE.CylinderGeometry(100, 100, 100);
+            //definisikan material
+            var material = new THREE.MeshBasicMaterial();
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(0, 0, -1000);
+
+            scene.add(mesh);
+
+            renderer.render(scene, camera);
+            //document.body.appendChild(renderer.domElement);
+		</script>
+	</body>
+</html>
