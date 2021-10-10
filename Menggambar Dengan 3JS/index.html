@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Membuat Silinder</title>
+		<style>
+			body { 
+                margin: 0;
+                overflow: hidden;
+             }
+
+             canvas {
+                 background: red;
+             }
+		</style>
+	</head>
+	<body>
+
+        <canvas id="myCanvas"></canvas>
+
+		<script src="three.js"></script>
+		<script>
+            var renderer = new THREE.WebGLRenderer({canvas: document.getElementById('myCanvas'), antialias: true});
+            
+            //definisi background, rasio, ukuran
+            renderer.setClearColor(0x6a68ef);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            //definisikan kamera
+            var camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
+            // camera.position.set(0, 0, 0);
+
+            //definisikan scene
+            var scene = new THREE.Scene();
+            
+            //AMBIENT LIGHT = MENYINARI SEGALA PERMUKAAN
+            //var light = new THREE.AmbientLight(0xffffff, 0.5);
+            //scene.add(light);
+
+            //POINT LIGHT = DARI SATU TITIK KE SEGALA ARAH (SEPERTI BOHLAM) -- COLOR, INTENSITI, DISTANCE, DECAY
+            //var light1 = new THREE.PointLight(0xfffff, 2, 6000);
+            //scene.add(light1);
+
+            //DIRECTIONAL LIGHT = DARI ATAS (SEPERTI MATAHARI) -- WARNA, INTENSITAS
+            //var light2 = new THREE.DirectionalLight(0xffffff, 2, 1000);
+            //scene.add(light2);
+
+            //SPOTLIGHT = MEMANCARKAN CAHAYA KERUCUT -- WARNA, INTENSITAS, , distance, angle, penumbra, decay
+            var light3 = new THREE.SpotLight(0x79ff98, 2);
+            light3.position.set(100, 100, 100);
+            //light3.target = mesh3;
+            scene.add(light3);
+
+            //HEMISPHERE LIGHT = cahaya bumi -- SEPERTI AMBIENT TAPI ADA 2 WARNA ATAS BAWAH
+            //var light4 = new THREE.HemisphereLight(0x79ff98, 0x8e34d6, 1);
+            //scene.add(light4);
+
+            //definisikan material
+            var material = new THREE.MeshLambertMaterial({color: 0xee814b});
+            var material2 = new THREE.MeshPhongMaterial({color: 0x49ef4});
+            var material3 = new THREE.MeshStandardMaterial({color: 0xf93838, side: THREE.DoubleSide });
+
+            //basic material = tampilkan single color tanpa shading
+            //var material = new THREE.MeshBasicMaterial({color: 0xee814b});
+
+            //definisikan bentuk/geometri
+            
+            //geometri 1 : silinder
+            const radiustop = 80;
+            const radiusBottom =  80;
+            const height = 350;
+            const radialSegments = 50;
+            var geometry = new THREE.CylinderGeometry(radiustop, radiusBottom, height, radialSegments );
+            var mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(400,0 , -1000);
+            scene.add(mesh);
+            
+            //geometri 2 : octahedron (radius, detail)
+            var geometry2 = new THREE.OctahedronGeometry(100,4);
+            var mesh2 = new THREE.Mesh(geometry2, material2);
+            mesh2.position.z = -1000;
+            mesh2.position.x = 0;
+            scene.add(mesh2);
+
+            //geometri 3 : Ring
+            const innerRadius =  30;  
+            const outerRadius =  150;  
+            const thetaSegments = 11;  
+            var geometry3 = new THREE.RingGeometry(innerRadius, outerRadius, thetaSegments);
+            var mesh3 = new THREE.Mesh(geometry3, material3);
+            mesh3.position.z = -1000;
+            mesh3.position.x = -400;
+            scene.add(mesh3);
+            
+            //geometri 4 : cone
+            /*const radius =  4.4;  
+            const height =  8.6;  
+            const radialSegments = 32;  
+            var geometry4 = new THREE.ConeGeometry(radius, height, radialSegments);
+            var mesh4 = new THREE.Mesh(geometry4, material);
+            mesh4.position.z = -500;
+            mesh4.position.x = -200;
+            scene.add(mesh4);*/
+            
+            //geometri 5 : Torus
+            /*const radius = 3.5;  
+            const tubeRadius = 1.5;  
+            const radialSegments = 13;  
+            const tubularSegments = 64;  
+            const p = 2;  
+            const q = 3;  
+            var geometry5 = new THREE.TorusKnotGeometry(radius, tubeRadius, tubularSegments, radialSegments, p, q);
+            var mesh5 = new THREE.Mesh(geometry5, material);
+            mesh5.position.z = -1000;
+            mesh5.position.x = -20;
+            scene.add(mesh5);*/
+
+            //geometri 6 : text
+            /*var loader = new THREE.FontLoader();
+            var font = loader.parse(fontJSON);
+            var geometry6 = new THREE.TextGeometry('davtang', {font : font, size : 120, height : 10, material: 0, bevelThickness: 1, extrudeMaterial: 1});
+            var mesh6 = new THREE.Mesh(geometry6, material3);
+            mesh6.position.z = -1000;
+            mesh6.position.x = -400;
+            scene.add(mesh6);*/
+
+            //definisikan wireframe
+            var geo = new THREE.EdgesGeometry( mesh.geometry );
+            var mat = new THREE.LineBasicMaterial( { color: 000000 } );
+            var wireframe = new THREE.LineSegments( geo, mat );
+            mesh.add( wireframe );
+
+            var geo2 = new THREE.EdgesGeometry( mesh2.geometry );
+            var mat2 = new THREE.LineBasicMaterial( { color: 000000 } );
+            var wireframe = new THREE.LineSegments( geo2, mat2 );
+            mesh2.add( wireframe );
+
+            /*var geo3 = new THREE.EdgesGeometry( mesh3.geometry );
+            var mat3 = new THREE.LineBasicMaterial( { color: 000000 } );
+            var wireframe = new THREE.LineSegments( geo3, mat3 );
+            mesh3.add( wireframe );*/
+
+            //definisikan animasi
+            requestAnimationFrame(render);
+
+            function render() {
+                //rotasi pada sumbu x
+                mesh.rotation.x += 0.01;
+                //rotasi pada sumbu z
+                mesh.rotation.z += 0.001;
+
+                //rotasi pada sumbu x
+                mesh2.rotation.x += 0.01;
+                //rotasi pada sumbu z
+                mesh2.rotation.z += 0.001;
+
+                //rotasi pada sumbu x
+                mesh3.rotation.x += 0.01;
+                //rotasi pada sumbu z
+                mesh3.rotation.z += 0.001;
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(render);
+            }
+            
+		</script>
+	</body>
+</html>
