@@ -57,8 +57,9 @@
             //scene.add(light4);
 
             //definisikan material
-            var material = new THREE.MeshLambertMaterial({color: 0xee814b});
-            var material2 = new THREE.MeshPhongMaterial({color: 0x49ef4});
+            var material = new THREE.MeshLambertMaterial({color: 0xee814b, wireframe: false});
+            var materia4 = new THREE.MeshLambertMaterial({color: 0xee814b});
+            var material2 = new THREE.MeshPhongMaterial({color: 0x49ef4,wireframe: true});
             var material3 = new THREE.MeshStandardMaterial({color: 0xf93838, side: THREE.DoubleSide });
 
             //basic material = tampilkan single color tanpa shading
@@ -73,12 +74,16 @@
             const radialSegments = 50;
             var geometry = new THREE.CylinderGeometry(radiustop, radiusBottom, height, radialSegments );
             var mesh = new THREE.Mesh(geometry, material);
+            var mesh1 = mesh.clone();
+            mesh1.material = material;
+            mesh1.material.needsUpdate = true;
             mesh.position.set(400,0 , -1000);
             scene.add(mesh);
+            scene.add(mesh1)
             
             //geometri 2 : octahedron (radius, detail)
             var geometry2 = new THREE.OctahedronGeometry(100,4);
-            var mesh2 = new THREE.Mesh(geometry2, material2);
+            var mesh2 = new THREE.Mesh(geometry2, material3);
             mesh2.position.z = -1000;
             mesh2.position.x = 0;
             scene.add(mesh2);
@@ -94,14 +99,14 @@
             scene.add(mesh3);
             
             //geometri 4 : cone
-            /*const radius =  4.4;  
-            const height =  8.6;  
-            const radialSegments = 32;  
-            var geometry4 = new THREE.ConeGeometry(radius, height, radialSegments);
-            var mesh4 = new THREE.Mesh(geometry4, material);
-            mesh4.position.z = -500;
-            mesh4.position.x = -200;
-            scene.add(mesh4);*/
+            // const radius =  4.4;  
+            // const height =  8.6;  
+            // const radialSegments = 32;  
+            // var geometry4 = new THREE.ConeGeometry(radius, height, radialSegments);
+            // var mesh4 = new THREE.Mesh(geometry4, material3);
+            // mesh4.position.z = -500;
+            // mesh4.position.x = -200;
+            // scene.add(mesh4);
             
             //geometri 5 : Torus
             /*const radius = 3.5;  
@@ -126,7 +131,7 @@
             scene.add(mesh6);*/
 
             //definisikan wireframe
-            var geo = new THREE.EdgesGeometry( mesh.geometry );
+            var geo = new THREE.WireframeGeometry( mesh.geometry );
             var mat = new THREE.LineBasicMaterial( { color: 000000 } );
             var wireframe = new THREE.LineSegments( geo, mat );
             mesh.add( wireframe );
@@ -136,10 +141,10 @@
             var wireframe = new THREE.LineSegments( geo2, mat2 );
             mesh2.add( wireframe );
 
-            /*var geo3 = new THREE.EdgesGeometry( mesh3.geometry );
+            var geo3 = new THREE.WireframeGeometry( mesh3.geometry );
             var mat3 = new THREE.LineBasicMaterial( { color: 000000 } );
             var wireframe = new THREE.LineSegments( geo3, mat3 );
-            mesh3.add( wireframe );*/
+            mesh3.add( wireframe );
 
             //definisikan animasi
             requestAnimationFrame(render);
