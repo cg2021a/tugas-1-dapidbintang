@@ -191,7 +191,7 @@
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
-            document.addEventListener("click", onMouseClick, false); 
+            document.addEventListener("click", onMouseClick, true); 
 
             controls = new THREE.OrbitControls( camera, renderer.domElement );
             controls.enableDamping = true;
